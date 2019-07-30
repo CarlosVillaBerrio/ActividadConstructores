@@ -8,13 +8,16 @@ public class ConstructorCube : MonoBehaviour
     public int limiteCreaciones = 10; // LIMITE DE ITERACIONES
     int nEnemy, nAlly, pNombre, pEdad; // VARIABLES DEL PROBLEMA
     int zombieColor; // VARIABLE QUE DECIDE EL COLOR DEL ZOMBIE
-
+    string[] nombreAldeano; // NOMBRE DE LA MATRIZ DE NOMBRES
+    string aldeanoNombre;
     void Start()
     {
         nEnemy = Random.Range(5, limiteCreaciones+1); // DECIDE LA CANTIDAD DE ZOMBIES
         nAlly = limiteCreaciones - nEnemy; // CALCULA LAS ITERACIONES FALTANTES
         nAlly = Random.Range(0, nAlly+1); // SEGUN LAS ITERACIONES QUE FALTAN CREA EL RESTO EN ALDEANOS
-        
+
+        nombreAldeano = new string[20] { "Brayan", "Omaira", "Carlos", "Jorge", "Omar", "David", "Mr Pickles", "Kim Jo Il", "Kim Il Sun", "Hittler", "Satan", "Javier",
+        "José", "Blador", "Cesar", "Augusto", "Sara", "Salome", "Ana", "Jairo" };
 
         for (int i = 0; i < nEnemy; i++) // CICLO QUE CREA UN ZOMBIE POR CADA ITERACION
         {
@@ -25,8 +28,10 @@ public class ConstructorCube : MonoBehaviour
         for (int i = 0; i < nAlly; i++) // CICLO QUE CREA UN ALDEANO POR CADA ITERACION
         {
             pNombre = Random.Range(0, 20); // DECIDE AL AZAR EL NOMBRE DEL ALDEANO
+            aldeanoNombre = nombreAldeano[pNombre];
             pEdad = Random.Range(15, 100); // DECIDE AL AZAR LA EDAD DEL ALDEANO
-            Aldeano vivo = new Aldeano(pNombre, pEdad); // CONSTRUCTOR QUE CREA AL ALDEANO
+
+            Aldeano vivo = new Aldeano(aldeanoNombre, pEdad); // CONSTRUCTOR QUE CREA AL ALDEANO
         }
     }
 
@@ -77,17 +82,13 @@ public class ConstructorCube : MonoBehaviour
    
     class Aldeano // CONSTRUCTOR PARA ALDEANO
     {
-        int nNom; // POSICION DEL NOMBRE
-        string[] nombreAldeano; // NOMBRE DE LA MATRIZ DE NOMBRES
         string goName; // VARIABLE PARA ASIGNAR EL NOMBRE DADO POR LA MATRIZ
         int goEdad; // VARIABLE PARA ASIGNAR LA EDAD
 
-        public Aldeano(int pNombre, int pEdad) // METODO DEL CONSTRUCTOR ALDEANO
+        public Aldeano(string aldeanoNombre, int pEdad) // METODO DEL CONSTRUCTOR ALDEANO
         {
-            nNom = pNombre;
+            goName = aldeanoNombre;
             goEdad = pEdad;
-            nombreAldeano = new string[20] { "Brayan", "Omaira", "Carlos", "Jorge", "Omar", "David", "Mr Pickles", "Kim Jo Il", "Kim Il Sun", "Hittler", "Satan", "Javier",
-            "José", "Blador", "Cesar", "Augusto", "Sara", "Salome", "Ana", "Jairo" };
 
             GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube); // CREA LA FIGURA SOLICITADA
             Vector3 v = new Vector3(Random.Range(490, 500), 16.808f, Random.Range(815, 825)); // ELIGE UNA POSICION ALEATORIA
@@ -96,8 +97,7 @@ public class ConstructorCube : MonoBehaviour
             go.AddComponent<Rigidbody>(); // AÑADE CUERPO SOLIDO AL ZOMBIE
             go.GetComponent<Rigidbody>().freezeRotation = true; // CONGELA LA ROTACION PARA EVITAR QUE SE VOLTEE EL CUBO Y TRASPASE EL TERRENO Y CAIGA
 
-            go.name = nombreAldeano[nNom]; // NOMBRE DEL ALDEANO EN LA JERARQUIA
-            goName = nombreAldeano[nNom]; // PARAMETRO PARA EL MENSAJE DEL ALDEANO. MUESTRA EL NOMBRE EN EL MENSAJE
+            go.name = aldeanoNombre; // NOMBRE DEL ALDEANO EN LA JERARQUIA
 
             print(DarMensajeAldeano(goName, goEdad)); // MENSAJE DEL ALDEANO EN LA CONSOLA
         }
@@ -116,6 +116,4 @@ public class ConstructorCube : MonoBehaviour
             return mensaje;
         }
     }
-
-    
 }

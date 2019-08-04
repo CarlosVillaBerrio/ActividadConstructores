@@ -8,16 +8,19 @@ public class ConstructorCube : MonoBehaviour
     public int limiteCreaciones = 10; // LIMITE DE ITERACIONES
     int nEnemy, nAlly, pNombre, pEdad; // VARIABLES DEL PROBLEMA
     int zombieColor; // VARIABLE QUE DECIDE EL COLOR DEL ZOMBIE
+    public GameObject heroCube; // VARIABLE PARA EL PREFAB DEL HEROE
     string[] nombreAldeano; // NOMBRE DE LA MATRIZ DE NOMBRES
     string aldeanoNombre;
     void Start()
     {
-        nEnemy = Random.Range(5, limiteCreaciones+1); // DECIDE LA CANTIDAD DE ZOMBIES
+        nEnemy = Random.Range(5, limiteCreaciones); // DECIDE LA CANTIDAD DE ZOMBIES
         nAlly = limiteCreaciones - nEnemy; // CALCULA LAS ITERACIONES FALTANTES
-        nAlly = Random.Range(0, nAlly+1); // SEGUN LAS ITERACIONES QUE FALTAN CREA EL RESTO EN ALDEANOS
+        nAlly = Random.Range(0, nAlly); // SEGUN LAS ITERACIONES QUE FALTAN CREA EL RESTO EN ALDEANOS
 
         nombreAldeano = new string[20] { "Brayan", "Omaira", "Carlos", "Jorge", "Omar", "David", "Mr Pickles", "Kim Jo Il", "Kim Il Sun", "Hittler", "Satan", "Javier",
         "José", "Blador", "Cesar", "Augusto", "Sara", "Salome", "Ana", "Jairo" };
+
+        Heroe salvacion = new Heroe(heroCube); // CREA AL HEROE EN ESCENA DEBAJO DE LA DIRECTIONAL LIGHT
 
         for (int i = 0; i < nEnemy; i++) // CICLO QUE CREA UN ZOMBIE POR CADA ITERACION
         {
@@ -32,6 +35,18 @@ public class ConstructorCube : MonoBehaviour
             pEdad = Random.Range(15, 100); // DECIDE AL AZAR LA EDAD DEL ALDEANO
 
             Aldeano vivo = new Aldeano(aldeanoNombre, pEdad); // CONSTRUCTOR QUE CREA AL ALDEANO
+        }
+    }
+
+    class Heroe // CONSTRUCTOR PARA EL HEROE
+    {
+        GameObject cHeroe; // VARIABLE LOCAL
+
+        public Heroe(GameObject heroCube) // METODO DEL CONSTRUCTOR HEROE
+        {
+            cHeroe = heroCube; // ASOCIA LAS VARIABLES LOCALES CON LAS GLOBALES
+            cHeroe.name = "Heroe"; // NOMBRA AL HEROE EN LA JERARQUIA
+            cHeroe = GameObject.Instantiate(heroCube, new Vector3(493.40f, 15.36f, 821.33f), Quaternion.identity); // INSTANCIA AL HEROE EN ESCENA
         }
     }
 
